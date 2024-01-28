@@ -1,0 +1,86 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class Kata_5_1_15 {
+    public static void main(String[] args) {
+        DynamicArray<Integer> da = new DynamicArray<>();
+        da.add(0);
+        da.add(1);
+        da.add(2);
+        da.add(3);
+        da.add(4);
+        da.remove(1);
+        da.add(5);
+        da.add(6);
+        da.add(7);
+        da.add(8);
+        da.add(9);
+        da.add(10);
+        da.add(11);
+        da.add(12);
+        da.add(13);
+        da.add(14);
+        System.out.println("da.get = " + da.get(2));
+        System.out.println(Arrays.toString(da.dynamicArray1));
+        System.out.println(Arrays.toString(da.dynamicArray2));
+        da.remove(16);
+        System.out.println("-------");
+        System.out.println(Arrays.toString(da.dynamicArray1));
+        System.out.println(Arrays.toString(da.dynamicArray2));
+    }
+    public static class DynamicArray<T> {
+        Object[] dynamicArray1 = (T[]) new Object[3];
+        Object[] dynamicArray2;
+        int size = 0;
+        public T get(int index) {
+            if (dynamicArray2 != null) {
+                if (dynamicArray2[index] != null) {
+                    return (T) dynamicArray2[index];
+                } else {
+                    throw new ArrayIndexOutOfBoundsException("dynamicArray2");
+                }
+            } else {
+                if (dynamicArray1[index] != null) {
+                    return (T) dynamicArray1[index];
+                } else {
+                    throw new ArrayIndexOutOfBoundsException("dynamicArray1");
+                }
+            }
+        }
+
+        public void remove(int index) {
+            if (dynamicArray2 != null) {
+                for (int i = index; i < dynamicArray2.length-1; i++ ) {
+                    //dynamicArray2[index] = null;
+                    dynamicArray2[i] = dynamicArray2[i+1];
+                }
+                dynamicArray2[dynamicArray2.length-1] = null;
+                size--;
+            } else {
+                for (int i = index; i < dynamicArray1.length-1; i++ ) {
+                    //dynamicArray1[index] = null;
+                    dynamicArray1[i] = dynamicArray1[i + 1];
+                }
+                dynamicArray1[dynamicArray1.length-1] = null;
+                size--;
+            }
+        }
+
+        void add(T el) {
+            if (size < dynamicArray1.length) {
+                this.dynamicArray1[size] = el;
+                size++;
+            } else {
+                if (size == dynamicArray1.length) {
+                    this.dynamicArray2 = Arrays.copyOf(dynamicArray1, dynamicArray1.length + 20);
+                    this.dynamicArray2[size] = el;
+                    size++;
+                } else {
+                    this.dynamicArray2[size] = el;
+                    size++;
+                }
+            }
+        }
+    }
+}
