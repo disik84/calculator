@@ -1,0 +1,40 @@
+import java.util.*;
+
+public class Kata_5_2_13 {
+    public static void main(String[] args) {
+        Set<Integer> set1 = new HashSet<>();
+        set1.add(1);
+        set1.add(2);
+        set1.add(3);
+
+        Set<Integer> set2 = new HashSet<>();
+        set2.add(2);
+        set2.add(3);
+        set2.add(4);
+
+        System.out.println(symmetricDifference(set1, set2));
+    }
+    public static <T> Set<T> symmetricDifference(Set<? extends T> set1, Set<? extends T> set2) {
+        //твой код здесь
+        Set<T> set3 = new HashSet<>();
+
+        Iterator<? extends T> iterator = set1.iterator();
+        //Iterator<String> iterator2 = set2.iterator();
+        T s;
+        //String s2;
+        while (iterator.hasNext()) {
+            s = iterator.next();
+            if (!set2.contains(s)) {
+                set3.add(s);
+            }
+        }
+        iterator = set2.iterator();
+        while (iterator.hasNext()) {
+            s = iterator.next();
+            if (!set1.contains(s)) {
+                set3.add(s);
+            }
+        }
+        return set3;
+    }
+}
