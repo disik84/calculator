@@ -1,0 +1,43 @@
+import java.io.ByteArrayInputStream;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class Kata_6_2_13 {
+    public static void main(String[] args) {
+        System.setIn(new ByteArrayInputStream("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sodales consectetur purus at faucibus. Donec mi quam, tempor vel ipsum non, faucibus suscipit massa. Morbi lacinia velit blandit tincidunt efficitur. Vestibulum eget metus imperdiet sapien laoreet faucibus. Nunc eget vehicula mauris, ac auctor lorem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vel odio nec mi tempor dignissim.".getBytes()));
+        Scanner scanner = new Scanner(System.in).useDelimiter("(?U)[^\\p{L}\\p{Digit}]+");
+        Stream<String> stream = scanner.tokens();
+        List<String> list =  new ArrayList<>();
+
+        for(String str: stream.toList()) {
+            list.add(str.toLowerCase());
+        }
+
+        //Здесь мы закидываем в map коллекцию list через поток и подсчитываем количество раз которое встречаются слова в тексте
+        //Как работает это - Collectors.toMap(Function.identity(), value -> 1, Integer::sum) - я не до конца понял.
+        //Но это как то считает сколько раз встречаются слова в тексте
+        //Привидение к нижнему регистру сделать бы здесь
+        Map<String, Integer> map = list.stream().collect(Collectors.toMap(Function.identity(), value -> 1, Integer::sum));
+        System.out.println(map);
+
+        //Сортировка  мапы по значению
+        System.out.println("---Отсортированная мапа по значению и присвоенная в поток, limit=10---");
+        Map<String, Integer> streamSortMap = map.entrySet().stream()
+                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed()).limit(10).collect(Collectors.toMap();
+        //System.out.println(streamSortMap.toList());
+
+        /*Map<String, Integer> sortedMap = map.entrySet().stream()
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                .collect(Collectors.toMap(Entry::getKey, Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+
+        System.out.println(map.toList());*/
+
+    }
+
+    // Generic method to convert `Map<K, V>` to a stream of `<Map.Entry<K, V>`
+    private static <K, V> Stream<Map.Entry<K, V>> mapToStream (Map<K, V> map) {
+        return map.entrySet().stream();
+    }
+}
