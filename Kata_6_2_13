@@ -24,9 +24,9 @@ public class Kata_6_2_13 {
 
         //Сортировка  мапы по значению
         System.out.println("---Отсортированная мапа по значению и присвоенная в поток, limit=10---");
-        Map<String, Integer> streamSortMap = map.entrySet().stream()
-                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed()).limit(10).collect(Collectors.toMap();
-        //System.out.println(streamSortMap.toList());
+        Stream<Map.Entry<String, Integer>> streamSortMap = map.entrySet().stream()
+                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed()).limit(10);
+        System.out.println(streamSortMap.toList());
 
         /*Map<String, Integer> sortedMap = map.entrySet().stream()
                 .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
